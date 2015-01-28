@@ -76,6 +76,12 @@
 			<version>5.1</version>
 		</dependency>
 
+		<!-- MySQL Driver Dependency -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.34</version>
+		</dependency>
 
 		<!-- First declare the APIs we depend on and need for compilation. All 
 			of them are provided by JBoss AS 7 -->
