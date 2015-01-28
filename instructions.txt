@@ -1,0 +1,26 @@
+You will also need to add the following snippet to your JBoss config under <datasources>
+for the persistence to work correctly.
+
+Creating the persistence schema is required, and of course change the user-name and password fields.
+
+    <datasource jndi-name="java:/Persistence" pool-name="persistence" enabled="true" use-ccm="false">
+        <connection-url>jdbc:mysql://localhost/persistence</connection-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <driver>mysql</driver>
+        <security>
+            <user-name>root</user-name>
+            <password>root</password>
+        </security>
+        <validation>
+            <validate-on-match>false</validate-on-match>
+            <background-validation>false</background-validation>
+        </validation>
+        <statement>
+            <share-prepared-statements>false</share-prepared-statements>
+        </statement>
+    </datasource>
+    <drivers>
+        <driver name="mysql" module="com.mysql">
+            <xa-datasource-class>com.mysql.jdbc.Driver</xa-datasource-class>
+        </driver>
+    </drivers>
