@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+</h:head>
+
+<h:body>
+	<div class="ui-grid ui-grid-responsive">
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-1"></div>
+			<div class="ui-grid-col-10">
+				<h1>Create New Poll</h1>
+				<h:form>
+
+					<h2>Enter question:</h2>
+					<p:inputText binding="#{questionInput}" />
+					<br />
+
+					<h2>When does the question expire?</h2>
+					<p:outputLabel for="datetime" value="Date:" />
+					<p:calendar id="datetime" value="#{calendarView.date}"
+						pattern="yyyy/MM/dd HH:mm:ss" />
+					<br />
+
+					<h2>Answers</h2>
+					<h:dataTable id="answerTable"
+						value="#{answerSessionBean.questionList}" var="o"
+						styleClass="order-table" headerClass="order-table-header"
+						rowClasses="order-table-odd-row,order-table-even-row">
+						<h:column>
+							<f:facet name="header">Answer</f:facet>
+                            #{o.answer}
+                        </h:column>
+						<h:column>
+							<f:facet name="header">Action</f:facet>
+							<h:commandLink value="Delete"
+								action="#{answerSessionBean.deleteAction(o)}" />
+						</h:column>
+					</h:dataTable>
+					<h3>Enter Answer</h3>
+					<table>
+						<tr>
+							<td>Answer:</td>
+							<td><p:inputText size="10"
+									value="#{answerSessionBean.answer}" /></td>
+							<td><p:commandButton update="answerTable,error"
+									value="Add Answer" action="#{answerSessionBean.addAction}" /></td>
+							<td><h:outputText id="error"
+									value="#{answerSessionBean.error}" /></td>
+						</tr>
+					</table>
+					<br />
+					<p:commandButton value="Submit"
+						action="#{answerSessionBean.submit(questionInput.value, calendarView.date)}"
+						icon="ui-icon-check" ajax="false" />
+					<br />
+					<br />
+					<h:outputText value="#{answerSessionBean.submitError}" style="font-weight:bold;font-size:24px;" />
+					<br />
+					<p:separator />
+					<p:button value="Back to Poll List" icon="ui-icon-circle-arrow-w"
+						href="/polls.xhtml" />
+				</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+
+</html>

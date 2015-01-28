@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>Polls</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h:outputText value="Polls"
+			style="font-weight:bold;font-size:36px;font-family:Helvetica" />
+		<p:separator />
+		<p:button value="Add a new Poll" icon="ui-icon-circle-plus"
+			href="/add.xhtml" />
+		<p:separator />
+		<br />
+
+		<br />
+
+		<h:outputText value="Or select an existing question below"
+			style="font-weight:bold;font-size:24px;font-family:Helvetica" />
+		<br />
+		<p:dataGrid style="border:none;"
+			value="#{pollSessionBean.questionlist}" var="col" columns="1">
+			<p:link outcome="result" value="#{pollSessionBean.isExpired(col)} - #{col.question}"
+				style="font-family:Helvetica">
+				<f:param name="questionId" value="#{col.id}" />
+			</p:link>
+		</p:dataGrid>
+
+	</h:form>
+</h:body>
+</html>

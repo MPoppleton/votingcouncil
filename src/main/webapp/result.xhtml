@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Results</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<h1>Results</h1>
+		<f:metadata>
+			<f:viewParam name="questionId"
+				value="#{resultSessionBean.questionId}" />
+		</f:metadata>
+		
+		<p:outputLabel value="Question: #{resultSessionBean.questionName}" style="font-weight:bold;width:80%" />
+		<p:separator />
+		<br />
+        <p:outputLabel value="Answers" style="font-weight:bold;" />
+		<p:dataGrid id="voteGrid" style="border:10px;" value="#{resultSessionBean.answerList}"
+			var="col" columns="1">
+			<p:panel header="#{col.answer}" style="text-align:center;width:300px;height:80px;" >
+				<h:outputText value="#{col.responses.size()} #{resultSessionBean.getVoteString(col.responses.size())}."/>
+			</p:panel>
+			<p:commandButton disabled="#{resultSessionBean.voted}" value="Vote" id="ajax" action="#{resultSessionBean.doVote(col)}" styleClass="ui-priority-primary" update="@form" />
+		</p:dataGrid>
+		<br />
+		      <h:outputText value="#{resultSessionBean.message}" style="font-weight:bold;font-size:24px;color:red" />
+		<br />
+		<h:outputText value="Hours remaining on vote: #{resultSessionBean.timeLeft}" style="font-weight:bold;font-size:24px;" />
+		<br />
+		<p:separator />
+		<p:button value="Back to Poll List" icon="ui-icon-circle-arrow-w"
+			href="/polls.xhtml" />
+	</h:form>
+</h:body>
+</html>
