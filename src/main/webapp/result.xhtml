@@ -14,23 +14,42 @@
 			<f:viewParam name="questionId"
 				value="#{resultSessionBean.questionId}" />
 		</f:metadata>
-		
-		<p:outputLabel value="Question: #{resultSessionBean.questionName}" style="font-weight:bold;width:80%" />
+
+		<p:outputLabel value="Question: #{resultSessionBean.questionName}"
+			style="font-weight:bold;width:80%" />
 		<p:separator />
 		<br />
-        <p:outputLabel value="Answers" style="font-weight:bold;" />
-		<p:dataGrid id="voteGrid" style="border:10px;" value="#{resultSessionBean.answerList}"
-			var="col" columns="1">
-			<p:panel header="#{col.answer}" style="text-align:center;width:300px;height:80px;" >
-				<h:outputText value="#{col.responses.size()} #{resultSessionBean.getVoteString(col.responses.size())}."/>
+		<p:outputLabel value="Answers" style="font-weight:bold;" />
+		<p:dataGrid id="voteGrid" style="border:10px;"
+			value="#{resultSessionBean.answerList}" var="col" columns="1">
+			<p:panel header="#{col.answer}"
+				style="text-align:center;width:300px;height:80px;">
+				<h:outputText
+					value="#{resultSessionBean.getVoteString(col.responses.size())}" />
 			</p:panel>
-			<p:commandButton disabled="#{resultSessionBean.voted}" value="Vote" id="ajax" action="#{resultSessionBean.doVote(col)}" styleClass="ui-priority-primary" update="@form" />
+			<p:commandButton disabled="#{resultSessionBean.voted}" value="Vote"
+				id="ajax" action="#{resultSessionBean.doVote(col)}"
+				styleClass="ui-priority-primary" update="@form" />
 		</p:dataGrid>
 		<br />
-		      <h:outputText value="#{resultSessionBean.message}" style="font-weight:bold;font-size:24px;color:red" />
+		<h:outputText value="#{resultSessionBean.message}"
+			style="font-weight:bold;font-size:24px;color:red" />
 		<br />
-		<h:outputText value="Hours remaining on vote: #{resultSessionBean.timeLeft}" style="font-weight:bold;font-size:24px;" />
+		<h:outputText
+			value="Hours remaining on vote: #{resultSessionBean.timeLeft}"
+			style="font-weight:bold;font-size:24px;" />
 		<br />
+		<p:separator />
+		<br />
+		<p:commandButton icon="ui-icon-trash" value="Delete this Poll" type="button" onclick="PF('dlg2').show();" />
+		<p:outputLabel value="#{resultSessionBean.deleteMessage}" style="font-weight:bold;font-size:18px;color:red" />
+		<p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true"
+			height="100">
+			<h:outputLabel for="password" value="Enter Password: " />
+			<p:inputText id="password" binding="#{passwordInput}" />
+			<p:separator />
+			<p:commandButton value="Delete Poll" action="#{resultSessionBean.removeQuestion(passwordInput.value)}" ajax="false" icon="ui-icon-trash" />
+		</p:dialog>
 		<p:separator />
 		<p:button value="Back to Poll List" icon="ui-icon-circle-arrow-w"
 			href="/polls.xhtml" />

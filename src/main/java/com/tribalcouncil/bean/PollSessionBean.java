@@ -41,9 +41,9 @@ public class PollSessionBean implements Serializable {
 		long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
 
 		if (diffInSeconds <= 0) {
-			return "Closed\t";
+			return "Closed";
 		} else {
-			return "Active\t";
+			return "Active";
 		}
 	}
 	

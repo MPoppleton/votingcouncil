@@ -108,26 +108,21 @@ public class QuestionController {
 		return questionList;
 	}
 	
-	public Question getCurrentQuestion() {
-		return null;
+	public void removeEntity(Object o) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.delete(o);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
-	
-	public void storeVote() {
-		
-	}
-
-	public String getResult() {
-		return "";
-	}
-
-	public List<String> getHistory() {
-		return null;
-	}
-
-	public double getWinnerPercentage() {
-		return 0;
-	}
-
 
 	public List<Answer> getAnswers(Question question) {
 		Session session = factory.openSession();

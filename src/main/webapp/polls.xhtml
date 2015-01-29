@@ -25,7 +25,8 @@
 		<br />
 		<p:dataGrid style="border:none;"
 			value="#{pollSessionBean.questionlist}" var="col" columns="1">
-			<p:link outcome="result" value="#{pollSessionBean.isExpired(col)} - #{col.question}"
+			<p:link outcome="result"
+				value="[#{pollSessionBean.isExpired(col)}] #{col.question}"
 				style="font-family:Helvetica">
 				<f:param name="questionId" value="#{col.id}" />
 			</p:link>

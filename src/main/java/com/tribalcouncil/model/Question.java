@@ -75,7 +75,7 @@ public class Question implements java.io.Serializable {
 		this.question = question;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.ALL)
 	public Set<Response> getResponses() {
 		return this.responses;
 	}

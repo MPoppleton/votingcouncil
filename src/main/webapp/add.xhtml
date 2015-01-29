@@ -50,7 +50,8 @@
 							<td><p:inputText size="10"
 									value="#{answerSessionBean.answer}" /></td>
 							<td><p:commandButton update="answerTable,error"
-									value="Add Answer" action="#{answerSessionBean.addAction}" /></td>
+									value="Add Answer" action="#{answerSessionBean.addAction}"
+									icon="ui-icon-plus" /></td>
 							<td><h:outputText id="error"
 									value="#{answerSessionBean.error}" /></td>
 						</tr>
@@ -61,7 +62,8 @@
 						icon="ui-icon-check" ajax="false" />
 					<br />
 					<br />
-					<h:outputText value="#{answerSessionBean.submitError}" style="font-weight:bold;font-size:24px;" />
+					<h:outputText value="#{answerSessionBean.submitError}"
+						style="font-weight:bold;font-size:24px;" />
 					<br />
 					<p:separator />
 					<p:button value="Back to Poll List" icon="ui-icon-circle-arrow-w"

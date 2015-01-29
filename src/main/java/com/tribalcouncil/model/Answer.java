@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -73,7 +74,7 @@ public class Answer implements java.io.Serializable, Comparable {
 		this.answer = answer;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "answer")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "answer", cascade = CascadeType.ALL)
 	public Set<Response> getResponses() {
 		return this.responses;
 	}

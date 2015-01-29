@@ -28,13 +28,22 @@ public class ResultSessionBean {
 	private static Question currentQuestion;
 	private static final ArrayList<Answer> answerList = new ArrayList<Answer>();
 	private String message;
+	private String deleteMessage;
 	private boolean voted = false;
 		
+	public String getDeleteMessage() {
+		return deleteMessage;
+	}
+
+	public void setDeleteMessage(String deleteMessage) {
+		this.deleteMessage = deleteMessage;
+	}
+
 	public boolean isVoted() {
 		String userIP = getUserIp();
 		if ("Question expired".equals(getTimeLeft())) {
 			voted = true;
-			message = "You can't voted on an expired question.";
+			message = "Winner: " + getMostVotes();
 			return voted;
 		}
 		for (Response response : currentQuestion.getResponses()) {
@@ -53,6 +62,22 @@ public class ResultSessionBean {
 
 	public String getMessage() {
 		return message;
+	}
+	
+	public String removeQuestion(String password) { 
+		if ("password123".equals(password)) {
+//			for (Response response : currentQuestion.getResponses()) {
+//				qc.removeEntity(response);
+//			}
+//			for (Answer answer : currentQuestion.getAnswers()) {
+//				qc.removeEntity(answer);
+//			}
+			qc.removeEntity(currentQuestion);
+			deleteMessage = "";
+			return "polls.xhtml?faces-redirect=true";
+		}
+		deleteMessage = "Incorrect password.";
+		return null;
 	}
 
 	public void setMessage(String message) {
@@ -83,13 +108,17 @@ public class ResultSessionBean {
 	}
 
 	public String getVoteString(int i) {
-		if (i == 1) {
-			return "vote";
+		if (!"Question expired".equals(getTimeLeft())) {
+			return "";
 		} else {
-			return "votes";
+			if (i == 1) {
+				return i + " vote";
+			} else {
+				return i + " votes";
+			}
 		}
 	}
-
+	
 	public String getMostVotes() {
 		String currentHighest = "";
 		int highestCurrent = 0;
@@ -100,6 +129,8 @@ public class ResultSessionBean {
 				if (a.getResponses().size() > highestCurrent) {
 					currentHighest = a.getAnswer();
 					highestCurrent = a.getResponses().size();
+				} else if (a.getResponses().size() == highestCurrent && highestCurrent != 0) {
+					currentHighest += " and " + a.getAnswer();
 				}
 			}
 		}
@@ -109,7 +140,7 @@ public class ResultSessionBean {
 			if (highestCurrent == 1) {
 				return currentHighest + " with " + highestCurrent + " vote.";
 			}
-			return currentHighest + " with " + highestCurrent + " votes.";
+ 			return currentHighest + " with " + highestCurrent + " votes.";
 		}
 	}
 
