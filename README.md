@@ -1,21 +1,15 @@
 # Voting Council App _v1.0.0_
-Designed for _JBoss 7.1.1_ 
+Designed for _WildFly 8.2.0_ 
+Also tested on Jboss _7.1.1_
 
 ## Description
 A simple application that allows users to create questions and vote on them.
 
 ## Instructions
-Create a tribalcouncil schema in your MySQL DB
-Just run the tribal.sql script under _src/main/db/_ to create required tables,
-and update your hibernate config respectively.
+Move the datasource file (src/main/webapp/WEB-INF/votingapp-ds.xml), uncomment the datasource (Remove the <!-- and --> before and after the <datasource> tags) and place it in your deployments folder (jboss or wildfly standalone/deployments) or use your own datasource and edit the persistence.xml within the app before you build it.
 
-Or let hibernate do it's magic!
+Ensure that your datasoure deploys correctly! If it doesnt, check the logs and fix 'er up.
 
-Take the datasource file (src/main/webapp/WEB-INF/votingapp-ds.xml), uncomment the datasource and place it in your deployments folder (jboss or wildfly standalone/deployments) or use your old datasource and edit the persistence xml)
+Build (mvn clean install in the votingcouncil/ directory) the project and deploy the .war file (found in votingcouncil/target/) in JBoss/WildFly (standalone/deployments/). Once it has deployed, go to your web context hosted (default is localhost:8080/votingapp) and try it out! 
 
-Build and deploy the .war file and go to your jboss web context hosted (/votingapp)  
-and try it out! 
-
-See _instructions.txt_ for further help on how to configure your jboss datasource persistence adapter, or 
-simply change the persistence adapter used in the persistence.xml file to match your currently configured one.
-
+See _instructions.txt_ for further help on how to configure your datasource or persistence adapter.

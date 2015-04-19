@@ -1,10 +1,12 @@
-You will also need to add the following snippet to your JBoss config under <datasources>
-for the persistence to work correctly.
+You will 
 
-Creating the persistence schema is required, and of course change the user-name and password fields.
+Create the votingapp schema on your MySQL DB, change the connection url to point at your db and of course change the user-name and password fields
+if neccessary.
 
-    <datasource jndi-name="java:/Persistence" pool-name="persistence" enabled="true" use-ccm="false">
-        <connection-url>jdbc:mysql://localhost/persistence</connection-url>
+Currently the persisnce xml points at the "jndi java:/votingapp/Persistence". If you deploy the following datasource it should work. Otherwise you can change the persistence.xml to use a datasource you have already configured.
+
+    <datasource jndi-name="java:/votingapp/Persistence" pool-name="persistence" enabled="true" use-ccm="false">
+        <connection-url>jdbc:mysql://localhost/votingapp</connection-url>
         <driver-class>com.mysql.jdbc.Driver</driver-class>
         <driver>mysql</driver>
         <security>
