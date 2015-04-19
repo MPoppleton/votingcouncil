@@ -1,4 +1,4 @@
-# Voting Council App _v1.0.0_
+# Voting Council App _v1.0.2_
 Designed for _WildFly 8.2.0_ 
 Also tested on Jboss _7.1.1_
 
