@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "answer", catalog = "tribalcouncil")
+@Table(name = "answer")
 public class Answer implements java.io.Serializable, Comparable {
 
 	/**
@@ -86,7 +86,7 @@ public class Answer implements java.io.Serializable, Comparable {
 	@Override
 	public int compareTo(Object o) {
 		int compareResult = ((Answer) o).getId();
-		return this.getId()-compareResult;
-	}
+		return this.getId() - compareResult;
+	} 
 
 }

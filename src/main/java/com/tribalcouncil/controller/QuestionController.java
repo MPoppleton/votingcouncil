@@ -5,163 +5,57 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.transaction.TransactionManager;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.tribalcouncil.model.Answer;
 import com.tribalcouncil.model.Question;
 import com.tribalcouncil.model.Response;
-import com.tribalcouncil.util.HibernateUtil;
 
 @Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
 public class QuestionController {
 
-	private static SessionFactory factory;
-
-	public QuestionController() {
-		factory = HibernateUtil.getSessionFactory();
-	}
-	
+	@PersistenceContext(unitName="primary")
+	private EntityManager em;
+		
 	public Question createQuestion(String newQuestion, Date closeDate, List<String> answers) {
-		Session session = factory.openSession();
-		Transaction tx = null;
 		Question question = new Question();
-		try {
-			tx = session.beginTransaction();
-			question.setClosedate(closeDate);
-			question.setQuestion(newQuestion);
-			Set<Answer> answerSet = new HashSet<Answer>();
-			for (String answerString : answers) {
-				Answer answer = new Answer(question, answerString);
-				answerSet.add(answer);
-			}
-			question.setAnswers(answerSet);
-			session.persist(question);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
+		question.setClosedate(closeDate);
+		question.setQuestion(newQuestion);
+		Set<Answer> answerSet = new HashSet<Answer>();
+		for (String answerString : answers) {
+			Answer answer = new Answer(question, answerString);
+			answerSet.add(answer);
 		}
+		question.setAnswers(answerSet);
+		em.persist(question);
 		return question;
 	}
 	
 	public void addQuestion(Question question) {
-		Session session = factory.openSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			session.persist(question);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+		em.persist(question);
 	}
 	
 	public Question getQuestion(int questionId) {
-		Session session = factory.openSession();
-		Transaction tx = null;
-		Question question = null;
-		try {
-			tx = session.beginTransaction();
-			question = (Question) session.createQuery("FROM Question WHERE id=" + questionId).uniqueResult();
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return question;
+		return em.find(Question.class, questionId);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Question> getQuestions() {
-		Session session = factory.openSession();
-		Transaction tx = null;
-		List<Question> questionList = null;
-		try {
-			tx = session.beginTransaction();
-			questionList = session.createQuery("FROM Question").list();
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return questionList;
+		Query query = em.createQuery("SELECT q FROM Question q");
+		return (List<Question>) query.getResultList();
 	}
 	
 	public void removeEntity(Object o) {
-		Session session = factory.openSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			session.delete(o);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-	}
-
-	public List<Answer> getAnswers(Question question) {
-		Session session = factory.openSession();
-		Transaction tx = null;
-		List<Answer> answerList = null;
-		try {
-			tx = session.beginTransaction();
-			answerList = session
-					.createQuery("FROM Answer").list();
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return answerList;
+		em.remove(em.merge(o));
 	}
 
 	public void saveResponse(String IP, Answer answer) {
-		Session session = factory.openSession();
-		Transaction tx = null;
 		Response response = new Response(answer.getQuestion(), answer.getId(), IP);
-		try {
-			tx = session.beginTransaction();
-			session.save(response);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+		em.persist(response);
 	}
 
-	public boolean hasVoted(Question question, String ip) {
-
-		return true;
-	}
 }

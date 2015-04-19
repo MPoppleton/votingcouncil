@@ -1,0 +1,70 @@
+.ui-fieldset-legend {
+	margin-top:30px;
+	margin-bottom:20px;
+	font-weight:bold;
+	font-size:28px;
+	font-family:Helvetica;
+	display:block;
+	padding: 0px;
+}
+
+.results-grid .ui-button{
+	text-align:left;
+	min-width:150px;
+	height:35px;
+	font-size:17px;
+}
+
+*{
+	color:#3F3F3F !important;
+}
+
+.ui-datagrid-content{
+	border: none; 
+	border-width: 0;
+}
+
+.ui-grid-col-10 .ui-button{
+	margin-bottom:5px;
+}
+
+body{
+	background-color: #eeeeee;
+}
+
+.sub-header{
+	font-weight:bold;
+	font-size:24px;
+	font-family:Helvetica;
+	
+}
+
+
+.question-history .ui-button{
+	font-size:85% !important;
+	/*margin-bottom: 5px;*/
+}
+
+#dg1 {
+	/*display:block;
+	
+	margin-top: 150px;*/
+	border:none; 
+}
+
+
+.ui-datagrid-data{
+	padding: 7px;
+}
+
+.ui-datatable{
+	max-width:80%;
+}
+
+.ui-panel{
+
+	width:50%;
+}
+.ui-panel-content{
+	padding-top:16px !important;
+}

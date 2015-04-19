@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
@@ -17,8 +17,8 @@ import com.tribalcouncil.model.Answer;
 import com.tribalcouncil.model.Question;
 import com.tribalcouncil.model.Response;
 
-@ManagedBean
-@SessionScoped
+@ManagedBean(eager = false)
+@RequestScoped
 public class ResultSessionBean {
 
 	@Inject
@@ -30,7 +30,7 @@ public class ResultSessionBean {
 	private String message;
 	private String deleteMessage;
 	private boolean voted = false;
-		
+
 	public String getDeleteMessage() {
 		return deleteMessage;
 	}
@@ -47,12 +47,19 @@ public class ResultSessionBean {
 			return voted;
 		}
 		for (Response response : currentQuestion.getResponses()) {
+			Answer theAnswerWeWant = null;
+			for (Answer a : answerList) {
+				if (a.getResponses().contains(response)) {
+					theAnswerWeWant = a;
+				}
+			}
 			if (response.getIp().equals(userIP)) {
 				voted = true;
-				message = "You have voted on this question";
+				message = "Your vote for " + theAnswerWeWant.getAnswer()
+						+ " has been counted.";
 				break;
-			} 
-		}		
+			}
+		}
 		return voted;
 	}
 
@@ -63,20 +70,14 @@ public class ResultSessionBean {
 	public String getMessage() {
 		return message;
 	}
-	
-	public String removeQuestion(String password) { 
+
+	public String removeQuestion(String password) {
 		if ("password123".equals(password)) {
-//			for (Response response : currentQuestion.getResponses()) {
-//				qc.removeEntity(response);
-//			}
-//			for (Answer answer : currentQuestion.getAnswers()) {
-//				qc.removeEntity(answer);
-//			}
 			qc.removeEntity(currentQuestion);
 			deleteMessage = "";
 			return "polls.xhtml?faces-redirect=true";
 		}
-		deleteMessage = "Incorrect password.";
+		deleteMessage = " Incorrect password.";
 		return null;
 	}
 
@@ -85,6 +86,9 @@ public class ResultSessionBean {
 	}
 
 	public String getTimeLeft() {
+		if (currentQuestion == null) {
+			return "";
+		}
 		Date startDate = new Date();
 		Date endDate = currentQuestion.getClosedate();
 
@@ -118,7 +122,7 @@ public class ResultSessionBean {
 			}
 		}
 	}
-	
+
 	public String getMostVotes() {
 		String currentHighest = "";
 		int highestCurrent = 0;
@@ -129,7 +133,8 @@ public class ResultSessionBean {
 				if (a.getResponses().size() > highestCurrent) {
 					currentHighest = a.getAnswer();
 					highestCurrent = a.getResponses().size();
-				} else if (a.getResponses().size() == highestCurrent && highestCurrent != 0) {
+				} else if (a.getResponses().size() == highestCurrent
+						&& highestCurrent != 0) {
 					currentHighest += " and " + a.getAnswer();
 				}
 			}
@@ -140,10 +145,11 @@ public class ResultSessionBean {
 			if (highestCurrent == 1) {
 				return currentHighest + " with " + highestCurrent + " vote.";
 			}
- 			return currentHighest + " with " + highestCurrent + " votes.";
+			return currentHighest + " with " + highestCurrent + " votes.";
 		}
 	}
 
+	// Comment
 	public ArrayList<Answer> getAnswerList() {
 		Collections.sort(answerList);
 		return answerList;
@@ -175,7 +181,7 @@ public class ResultSessionBean {
 	public void doVote(Answer answer) {
 		qc.saveResponse(getUserIp(), answer);
 	}
-	
+
 	public String getUserIp() {
 		HttpServletRequest request = (HttpServletRequest) FacesContext
 				.getCurrentInstance().getExternalContext().getRequest();

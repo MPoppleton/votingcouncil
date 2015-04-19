@@ -9,9 +9,11 @@ Create a tribalcouncil schema in your MySQL DB
 Just run the tribal.sql script under _src/main/db/_ to create required tables,
 and update your hibernate config respectively.
 
-Or let hibernate do it's magic! 
+Or let hibernate do it's magic!
 
-Build and deploy the .war file and go to your jboss web context hosted (/votingapp) 
+Take the datasource file (src/main/webapp/WEB-INF/votingapp-ds.xml), uncomment the datasource and place it in your deployments folder (jboss or wildfly standalone/deployments) or use your old datasource and edit the persistence xml)
+
+Build and deploy the .war file and go to your jboss web context hosted (/votingapp)  
 and try it out! 
 
 See _instructions.txt_ for further help on how to configure your jboss datasource persistence adapter, or 

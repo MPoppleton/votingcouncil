@@ -1,20 +1,5 @@
 <?xml version="1.0"?>
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
- <managed-bean eager="true">
-  <managed-bean-name>answerSessionBean</managed-bean-name>
-  <managed-bean-class>com.tribalcouncil.bean.AnswerSessionBean</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>
- <managed-bean eager="true">
-  <managed-bean-name>pollSessionBean</managed-bean-name>
-  <managed-bean-class>com.tribalcouncil.bean.PollSessionBean</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>
- <managed-bean eager="true">
-  <managed-bean-name>resultSessionBean</managed-bean-name>
-  <managed-bean-class>com.tribalcouncil.bean.ResultSessionBean</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
- </managed-bean>
  <application/>
 </faces-config>

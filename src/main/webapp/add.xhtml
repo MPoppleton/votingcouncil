@@ -7,7 +7,8 @@
 
 
 <h:head>
-
+	<title>Add</title>
+	<link href="resources/css/style.css" rel="stylesheet" type="text/css" />
 </h:head>
 
 <h:body>
@@ -15,59 +16,71 @@
 		<div class="ui-grid-row">
 			<div class="ui-grid-col-1"></div>
 			<div class="ui-grid-col-10">
-				<h1>Create New Poll</h1>
 				<h:form>
+					<p:fieldset legend="Create New Poll">
 
-					<h2>Enter question:</h2>
-					<p:inputText binding="#{questionInput}" />
-					<br />
+						<p:panel id="basic" header="New question:">
+							<h3>Enter question:</h3>
+							<p:inputText binding="#{questionInput}"
+								style="margin-bottom:10px; display:block" />
 
-					<h2>When does the question expire?</h2>
-					<p:outputLabel for="datetime" value="Date:" />
-					<p:calendar id="datetime" value="#{calendarView.date}"
-						pattern="yyyy/MM/dd HH:mm:ss" />
-					<br />
+							<h3>End date/time:</h3>
+							<p:outputLabel for="datetime" />
+							<p:calendar id="datetime" value="#{calendarView.date}"
+								pattern="yyyy/MM/dd HH:mm:ss"
+								mindate="#{calendarView.currentDate}" />
+							<br />
 
-					<h2>Answers</h2>
-					<h:dataTable id="answerTable"
-						value="#{answerSessionBean.questionList}" var="o"
-						styleClass="order-table" headerClass="order-table-header"
-						rowClasses="order-table-odd-row,order-table-even-row">
-						<h:column>
-							<f:facet name="header">Answer</f:facet>
+							<p:tooltip />
+
+							<h2>Answers:</h2>
+							<h3>Enter Answer:</h3>
+							<table>
+								<tr>
+									<td><p:inputText size="10" id="answerInput"
+											value="#{answerSessionBean.answer}" maxlength="45" /></td>
+									<td><p:commandButton update="answerTable, answerInput"
+											value="Add Answer" action="#{answerSessionBean.addAction}"
+											icon="ui-icon-plus"
+											oncomplete="setTimeout(function(){$('[id$=messages]').fadeOut()},'2500')" /></td>
+									<td></td>
+
+								</tr>
+							</table>
+							<br />
+							<p:dataTable id="answerTable"
+								value="#{answerSessionBean.questionList}" var="o"
+								styleClass="order-table" headerClass="order-table-header"
+								rowClasses="order-table-odd-row,order-table-even-row"
+								liveResize="true">
+								<p:column>
+									<f:facet name="header" style="height:20px">Answer:</f:facet>
                             #{o.answer}
-                        </h:column>
-						<h:column>
-							<f:facet name="header">Action</f:facet>
-							<h:commandLink value="Delete"
-								action="#{answerSessionBean.deleteAction(o)}" />
-						</h:column>
-					</h:dataTable>
-					<h3>Enter Answer</h3>
-					<table>
-						<tr>
-							<td>Answer:</td>
-							<td><p:inputText size="10"
-									value="#{answerSessionBean.answer}" /></td>
-							<td><p:commandButton update="answerTable,error"
-									value="Add Answer" action="#{answerSessionBean.addAction}"
-									icon="ui-icon-plus" /></td>
-							<td><h:outputText id="error"
-									value="#{answerSessionBean.error}" /></td>
-						</tr>
-					</table>
-					<br />
-					<p:commandButton value="Submit"
-						action="#{answerSessionBean.submit(questionInput.value, calendarView.date)}"
-						icon="ui-icon-check" ajax="false" />
-					<br />
-					<br />
-					<h:outputText value="#{answerSessionBean.submitError}"
-						style="font-weight:bold;font-size:24px;" />
-					<br />
-					<p:separator />
-					<p:button value="Back to Poll List" icon="ui-icon-circle-arrow-w"
-						href="/polls.xhtml" />
+                            </p:column>
+								<p:column>
+									<f:facet name="header">Action:</f:facet>
+									<p:commandLink value="Delete"
+										action="#{answerSessionBean.deleteAction(o)}"
+										update="answerTable" />
+								</p:column>
+							</p:dataTable>
+							<br />
+							<p:commandButton value="Submit"
+								action="#{answerSessionBean.submit(questionInput.value, calendarView.date)}"
+								icon="ui-icon-check"
+								oncomplete="setTimeout(function(){$('[id$=messages]').fadeOut()},'2500')" />
+							<p:messages id="messages" showDetail="true" autoUpdate="true"
+								closable="true" />
+
+
+
+						</p:panel>
+						<br />
+						<p:button value="Back to Poll List" icon="ui-icon-circle-arrow-w"
+							href="/polls.xhtml" />
+
+
+					</p:fieldset>
 				</h:form>
 			</div>
 		</div>

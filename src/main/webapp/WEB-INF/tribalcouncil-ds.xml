@@ -7,7 +7,7 @@
 	xsi:schemaLocation="http://www.jboss.org/ironjacamar/schema http://docs.jboss.org/ironjacamar/schema/datasources_1_0.xsd">
 	<!-- The datasource is bound into JNDI at this location. We reference this 
 		in META-INF/persistence.xml -->
-	<!--datasource jndi-name="java:/Persistence" pool-name="jacklemonspersistence"
+	<!--datasource jndi-name="java:/votingapp/Persistence" pool-name="jacklemonspersistence"
 		enabled="true" use-ccm="false">
 		<connection-url>jdbc:mysql://192.172.1.57:3306/persistence</connection-url>
 		<driver-class>com.mysql.jdbc.Driver</driver-class>
